@@ -2,15 +2,17 @@ import configparser
 import psycopg2
 from sql_queries import create_table_queries, drop_table_queries
 
-
 def drop_tables(cur, conn):
-    for query in drop_table_queries:
+    for i, query in enumerate(drop_table_queries):
+        if not query or not query.strip():
+            raise ValueError(f"Empty DROP query at index {i}: {repr(query)}")
         cur.execute(query)
         conn.commit()
 
-
 def create_tables(cur, conn):
-    for query in create_table_queries:
+    for i, query in enumerate(create_table_queries):
+        if not query or not query.strip():
+            raise ValueError(f"Empty CREATE query at index {i}: {repr(query)}")
         cur.execute(query)
         conn.commit()
 
